@@ -37,6 +37,15 @@ gcc veeamid.c -o /bin/veeamid
 
 ![Example](veeamid.png)
 
+Single line to mount the last backup (when there is only one backup)
+```
+veeamconfig point mount --id $(veeamconfig point list --backupId $(veeamconfig backup list | veeamid) | veeamid) --mountDir /mnt
+```
+Single line to stop the latest mount session (maybe started with previous command)
+```
+veeamconfig session stop --id $(veeamconfig session list | grep Running | grep Mount | veeamid)
+```
+
 # Distributed under MIT license
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
