@@ -1,8 +1,13 @@
 # VeeamID
-Small tool to extract an ID from veeamconfig utility. Pipe output to it to select the first match
+Small tool to extract an ID from veeamconfig utility. Pipe output to it to select the last match
 
 ```
 veeamconfig backup list | veeamid
+```
+
+Same as -l
+```
+veeamconfig backup list | veeamid -l
 ```
 
 Use -c to count the number of matches
@@ -16,16 +21,18 @@ Use -n<number> to select <number output>. For example to select the second match
 BACKUPID=$(veeamconfig backup list | veeamid)
 veeamconfig point list --backupId $BACKUPID | veeamid -n2
 ```
+If you don't supply a number or you supply 0, it will transform it to 1 (first match)
 
 The matching is based on regex:
 ```
-[{]([a-z0-9-]+)[}]
+([a-z0-9-]{8}-[a-z0-9-]{4}-[a-z0-9-]{4}-[a-z0-9-]{4}-[a-z0-9-]{12})
 ```
-So it matches everything in lower case, numbers and '-' between curly brackets e.g {ab-1} would also match
+
 
 Compiling can be done with:
 ```
-compile with gcc veeamid.c -o veeamid
+wget https://raw.githubusercontent.com/tdewin/veeamid/master/src/veeamid.c
+gcc veeamid.c -o /bin/veeamid
 ```
 
 ![Example](veeamid.png)
